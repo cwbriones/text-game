@@ -7,6 +7,7 @@
   "author": "Chris Briones",
   "license": "MIT",
   "dependencies": {
+    "blessed": "^0.1.81",
     "immutable": "^3.8.1"
   },
   "devDependencies": {
