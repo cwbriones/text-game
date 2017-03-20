@@ -1,0 +1,39 @@
+.container {
+  margin: auto;
+  width: 40em;
+  max-width: 40em;
+  height: 25em;
+  max-height: 25em;
+  padding: 20px;
+  font-family: Verdana;
+  font-size: 20px;
+}
+
+#main {
+  width: 60%;
+  height: 100%;
+  padding: 10px;
+  float: left;
+}
+
+#inventory {
+  width: 30%;
+  height: 100%;
+  padding: 10px;
+  float: left;
+}
+
+#inventory ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#log {
+  height: 90%;
+  overflow-y: scroll;
+}
+
+#main input {
+  width: 100%;
+  float: left;
+}

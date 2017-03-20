@@ -1,15 +1,16 @@
 SHELL := /bin/bash
+
+SRC := src
 BIN := $(shell yarn bin)
 
-SRC       := ./src
-JS_ENTRY  := $(SRC)/index.js
-BUILD     := dist
-
 build:
-	$(BIN)/babel $(SRC) -d dist --presets es2015,stage-2
+	$(BIN)/webpack
 
-run: build
-	node $(BUILD)/index.js
+watch: build
+	$(BIN)/webpack --watch
+
+prod:
+	NODE_ENV=prod $(BIN)/webpack -p
 
 test:
 	$(BIN)/mocha -u bdd -R spec
