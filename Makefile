@@ -13,7 +13,7 @@ prod:
 	NODE_ENV=prod $(BIN)/webpack -p
 
 test:
-	$(BIN)/mocha -u bdd -R spec
+	NODE_PATH=$(SRC) $(BIN)/mocha --require babel-core/register -u bdd -R spec
 
 lint:
 	$(BIN)/eslint $(SRC)
