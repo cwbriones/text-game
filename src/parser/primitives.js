@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {OK, ERROR, ok, error, ParseResult} from 'parser';
+import {OK, ERROR, ok, error, ParseResult} from '../parser';
 
 export function succeed(a) {
     return function(string) {
