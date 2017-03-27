@@ -21,9 +21,8 @@ function handleInputLine(line) {
     const parseResult = parse(line);
     if (parseResult.type === OK) {
         if (parseResult.rest === "") {
-            const action = parseResult.value.action;
-            const target = parseResult.value.target;
-            logger.log(`You asked to perform action "${action}" on "${target}"`);
+            const sentence = parseResult.value;
+            performAction(sentence);
         } else {
             logger.log(ERROR_QUIP);
             logger.debug("error: expected end of input, had \"" + parseResult.rest + "\"")
@@ -37,6 +36,20 @@ function handleInputLine(line) {
 function handleInputError(line) {
     logger.log(PROMPT + line);
     logger.log(ERROR_QUIP);
+}
+
+function performAction(sentence) {
+    const action = sentence.action;
+    const object = sentence.object;
+
+    let message;
+    if (object.types.includes(action.object_type)) {
+        message = `You asked to perform action "${action.name}" on "${object.name}"`;
+    } else {
+        message = `You asked to perform action "${action.name}" on "${object.name}", `
+            + "but that makes no sense.";
+    }
+    logger.log(message);
 }
 
 if (require.main === module) {

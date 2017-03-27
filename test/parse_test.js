@@ -53,21 +53,23 @@ describe('primitives', function() {
 
 describe('parse', function() {
     it('should handle simple actions', function() {
-        expect(parse('go north')).to.deep.eq({
-            type: OK,
-            rest: '',
-            value: {
-                action: 'go',
-                target: 'north',
-            }
-        });
+        const parseResult = parse('go north');
+
+        expect(parseResult.type).to.eq(OK);
+        expect(parseResult.rest).to.eq('');
+
+        const action = parseResult.value.action;
+        const object = parseResult.value.object;
+
+        expect(action.name).to.eq('go');
+        expect(object.name).to.eq('north');
     });
 
     it('should deny undefined verbs', function() {
         expect(parse('flub north')).to.deep.eq({
             type: ERROR,
             rest: null,
-            value: '"flub" is not a valid verb'
+            value: '"flub" is not a valid action'
         });
     });
 
@@ -75,7 +77,7 @@ describe('parse', function() {
         expect(parse('go qux')).to.deep.eq({
             type: ERROR,
             rest: null,
-            value: '"qux" is not a valid noun'
+            value: '"qux" is not a valid object'
         });
     });
 });

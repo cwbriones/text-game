@@ -1,4 +1,8 @@
+import _ from 'lodash';
+
 import {word, whitespace, anyWord, succeed} from './primitives'
+import {ACTIONS} from '../definitions/action'
+import {OBJECTS} from '../definitions/object'
 
 //=============================================================================
 // Types
@@ -49,8 +53,20 @@ export function error(message) {
     return new ParseResult(ERROR, null, message);
 }
 
-export const verb = anyWord(['go'], 'verb');
-export const noun = anyWord(['north', 'south', 'east', 'west'], 'noun');
+function definedWords(definitions, definition_type) {
+    const names = _.map(definitions, def => def.name);
+    const nameParser = anyWord(names, definition_type);
+    return function(string) {
+        return nameParser(string).map(name => resolveDefinition(definitions, name));
+    }
+}
+
+function resolveDefinition(definitions, name) {
+    return _.find(definitions, def => def.name == name);
+}
+
+export const action = definedWords(ACTIONS, 'action');
+export const object = definedWords(OBJECTS, 'object');
 
 export default function parse(string) {
     // sentence = <verb> WS (preposition) WS <object>
@@ -62,10 +78,10 @@ export default function parse(string) {
     // article = "the" | "a" | "an"
     //
     // word = [a-z0-9]+
-    return verb(string)
+    return action(string)
         .then(whitespace)
-        .then(noun, (action, target) => ({
-            action,
-            target
+        .then(object, (actionName, objectName) => ({
+            action: actionName,
+            object: objectName,
         }));
 }
